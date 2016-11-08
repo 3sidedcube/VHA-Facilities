@@ -70,7 +70,9 @@
 			"state" => clean($row['State']),
 			"postal_code" => clean($row['Zip Code']),
 			"latitude" => clean($row['Latitude']),
-			"longitude" => clean($row['Longitude'])
+			"longitude" => clean($row['Longitude']),
+			"url" => clean($row['Website URL']),
+			"phone" => clean($row['Contact Phone Number'])
 		);
 
 		foreach ($current as &$field)
