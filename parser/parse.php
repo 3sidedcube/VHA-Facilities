@@ -1,4 +1,6 @@
 <?php
+    ini_set("error_reporting", E_ALL & ~E_NOTICE);
+
 	require_once("Files.php");
 	require_once("Dsv.php");
 
@@ -52,10 +54,20 @@
 		return $clean;
 	}
 
+	$options = getopt("f:", array("file:"));
+	$type = null;
+
+	if (!$options['f'] && !$options['f'])
+	{
+		die("Missing file\n");
+	}
+	else
+	{
+		$file = isset($options['f']) ? $options['f'] : $options['file'];
+	}
 
 	$dsv = new Dsv();
-	$dsv->load("master.csv");
-
+	$dsv->load($file);
 
 	$rows = $dsv->toStructure();
 
@@ -71,15 +83,15 @@
 			"postal_code" => clean($row['Zip Code']),
 			"latitude" => clean($row['Latitude']),
 			"longitude" => clean($row['Longitude']),
-			"url" => clean($row['Website URL']),
-			"phone" => clean($row['Contact Phone Number'])
+			"url" => clean($row['Website URL'])/*,
+			"phone" => clean($row['Contact Phone Number'])*/
 		);
 
-		foreach ($current as &$field)
+		foreach ($current as $key => $value)
 		{
-			if ($field === "")
+			if ($value === "" && $key != "state")
 			{
-				$field = null;
+				$current->$key = null;
 			}
 		}
 
